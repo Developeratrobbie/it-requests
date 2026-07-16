@@ -20,10 +20,16 @@ const users = [
 
 async function main() {
   console.log("Seeding users...");
-  const defaultPassword = await bcrypt.hash("password123", 10);
+  
+  // Clear existing users to start fresh
+  await prisma.user.deleteMany({});
+  
+  const adminPassword = await bcrypt.hash("123Dev321!", 10);
+  const userPassword = await bcrypt.hash("123Rbb321!", 10);
 
   for (const u of users) {
-    const email = `${u.username}@company.com`;
+    const email = `${u.username}@robbie.gr`;
+    const password = u.role === "ADMIN" ? adminPassword : userPassword;
     
     // Check if user already exists
     const existing = await prisma.user.findUnique({ where: { email } });
@@ -32,7 +38,7 @@ async function main() {
         data: {
           email: email,
           name: u.name,
-          password: defaultPassword,
+          password: password,
           role: u.role
         }
       });
