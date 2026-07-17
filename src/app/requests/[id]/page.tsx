@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import StatusSelect from "@/components/StatusSelect";
 import TimerButton from "@/components/TimerButton";
+import "react-quill-new/dist/quill.snow.css";
 
 export const dynamic = 'force-dynamic';
 
@@ -115,7 +116,9 @@ export default async function RequestDetailsPage({ params }: { params: Promise<{
 
         <div style={{ marginBottom: "2rem" }}>
           <strong style={{ display: "block", color: "var(--text-secondary)", fontSize: "0.85rem", marginBottom: "0.5rem" }}>Detailed Description</strong>
-          <div className="rich-text-content" style={{ padding: "1.5rem", backgroundColor: "rgba(15, 23, 42, 0.6)", borderRadius: "8px", border: "1px solid var(--glass-border)", whiteSpace: "pre-wrap", wordBreak: "break-word" }} dangerouslySetInnerHTML={{ __html: reqRecord.description }} />
+          <div className="ql-snow" style={{ backgroundColor: "rgba(15, 23, 42, 0.6)", borderRadius: "8px", border: "1px solid var(--glass-border)" }}>
+            <div className="ql-editor" style={{ padding: "1.5rem" }} dangerouslySetInnerHTML={{ __html: reqRecord.description }} />
+          </div>
         </div>
 
         {reqRecord.attachmentUrl && (

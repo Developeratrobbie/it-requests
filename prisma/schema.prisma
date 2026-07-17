@@ -22,14 +22,14 @@ model User {
 model Request {
   id             Int       @id @default(autoincrement())
   title          String
-  description    String
+  description    String    @db.LongText
   category       String
   priority       String
   
   userId         Int
   user           User      @relation(fields: [userId], references: [id])
   
-  attachmentUrl  String?
+  attachmentUrl  String?   @db.Text
   requiredByDate DateTime?
   status         String    @default("Open")
   timeSpent      Int       @default(0) // seconds spent

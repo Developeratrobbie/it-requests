@@ -18,11 +18,12 @@ export default function DeleteButton({ id }: { id: number }) {
       if (res.ok) {
         window.location.reload();
       } else {
-        alert("Failed to delete request");
+        const data = await res.json().catch(() => ({}));
+        alert("Failed to delete request: " + (data.error || "Unknown error"));
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
     }
   };
