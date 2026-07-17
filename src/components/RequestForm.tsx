@@ -18,6 +18,18 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
   const [file, setFile] = useState<File | null>(null);
   const [fileUploading, setFileUploading] = useState(false);
   const [description, setDescription] = useState("");
+  const [users, setUsers] = useState<any[]>([]);
+  
+  useEffect(() => {
+    if (session?.user?.role === "ADMIN") {
+      fetch("/api/users")
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) setUsers(data);
+        })
+        .catch(err => console.error("Failed to fetch users", err));
+    }
+  }, [session]);
 
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
@@ -89,6 +101,7 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
       priority: formData.get("priority"),
       attachmentUrl,
       requiredByDate: formData.get("requiredByDate") ? new Date(formData.get("requiredByDate") as string).toISOString() : null,
+      requestedForUserId: formData.get("requestedForUserId"),
     };
 
     try {
@@ -138,6 +151,18 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
         <label className="input-label" htmlFor="title">Short Title / Subject</label>
         <input required type="text" id="title" name="title" className="input-field" placeholder="e.g. Printer on 2nd floor is broken" />
       </div>
+
+      {session?.user?.role === "ADMIN" && (
+        <div className="input-group">
+          <label className="input-label" htmlFor="requestedForUserId">Requested For (User)</label>
+          <select id="requestedForUserId" name="requestedForUserId" className="input-field">
+            <option value="">-- Assign to myself --</option>
+            {users.map(u => (
+              <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="input-group">
         <label className="input-label" htmlFor="description">Detailed Description</label>

@@ -30,9 +30,11 @@ export default function Home() {
           </div>
           {session && (
             <div style={{ display: "flex", gap: "0.5rem" }}>
-              <Link href="/" className="btn-secondary" style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem" }}>
-                My Requests
-              </Link>
+              {session.user?.role !== "ADMIN" && (
+                <Link href="/" className="btn-secondary" style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem" }}>
+                  My Requests
+                </Link>
+              )}
               {session.user?.role === "ADMIN" && (
                 <Link href="/admin" className="btn-secondary" style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem" }}>
                   Admin Dashboard →

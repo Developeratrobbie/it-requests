@@ -12,6 +12,10 @@ export default async function MyRequestsPage() {
   if (!session) {
     redirect("/login");
   }
+  
+  if (session.user?.role === "ADMIN") {
+    redirect("/admin");
+  }
 
   return (
     <main className="container">

@@ -44,7 +44,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
         <div style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", display: "flex", gap: "1rem" }}>
-          <Link href="/" className="btn-primary">
+          <Link href="/submit" className="btn-primary">
             + New Request
           </Link>
           <Link href="/api/auth/signout" className="btn-secondary">

@@ -11,13 +11,19 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
+    
+    // If admin provides a requestedForUserId, use that instead of their own ID
+    const targetUserId = session.user.role === "ADMIN" && data.requestedForUserId 
+      ? parseInt(data.requestedForUserId) 
+      : parseInt(session.user.id);
+
     const newRequest = await prisma.request.create({
       data: {
         title: data.title,
         description: data.description,
         category: data.category,
         priority: data.priority,
-        userId: parseInt(session.user.id),
+        userId: targetUserId,
         attachmentUrl: data.attachmentUrl || null,
         requiredByDate: data.requiredByDate ? new Date(data.requiredByDate) : null,
       },
