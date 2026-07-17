@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:setup": "prisma generate && prisma db push",
+    "db:setup": "prisma generate && prisma db push --accept-data-loss",
     "seed": "node scripts/seedUsers.mjs"
   },
   "dependencies": {
