@@ -128,6 +128,11 @@ export default function AdminKanbanClient({ requests }: { requests: RequestWithU
   const [items, setItems] = useState(requests);
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  React.useEffect(() => {
+    // Silently run auto-archive job in the background
+    fetch("/api/admin/archive").catch(err => console.error("Archive job failed:", err));
+  }, []);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

@@ -44,6 +44,9 @@ export default async function AdminDashboard() {
           </div>
         </div>
         <div style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", display: "flex", gap: "1rem" }}>
+          <Link href="/admin/archived" className="btn-secondary" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
+            View Archived
+          </Link>
           <Link href="/submit" className="btn-primary">
             + New Request
           </Link>

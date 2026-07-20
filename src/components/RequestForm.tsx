@@ -139,24 +139,24 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
 
   return (
     <form className={`glass-card ${styles.form}`} onSubmit={handleSubmit} style={{ margin: "2rem auto", maxWidth: "800px" }}>
-      <h2 className={styles.formTitle}>Submit a Request</h2>
+      <h2 className={styles.formTitle}>Υποβολή Αιτήματος</h2>
       
       {success && (
         <div className={styles.successMessage}>
-          Request submitted successfully! The IT team has been notified.
+          Το αίτημα υποβλήθηκε με επιτυχία! Η ομάδα IT ενημερώθηκε.
         </div>
       )}
 
       <div className="input-group">
-        <label className="input-label" htmlFor="title">Short Title / Subject</label>
-        <input required type="text" id="title" name="title" className="input-field" placeholder="e.g. Printer on 2nd floor is broken" />
+        <label className="input-label" htmlFor="title">Σύντομος Τίτλος / Θέμα</label>
+        <input required type="text" id="title" name="title" className="input-field" placeholder="π.χ. Δεν λειτουργεί ο εκτυπωτής στον 2ο όροφο" />
       </div>
 
       {session?.user?.role === "ADMIN" && (
         <div className="input-group">
-          <label className="input-label" htmlFor="requestedForUserId">Requested For (User)</label>
+          <label className="input-label" htmlFor="requestedForUserId">Εκ μέρους (User)</label>
           <select id="requestedForUserId" name="requestedForUserId" className="input-field">
-            <option value="">-- Assign to myself --</option>
+            <option value="">-- Ανάθεση σε εμένα --</option>
             {users.map(u => (
               <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
             ))}
@@ -165,48 +165,48 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
       )}
 
       <div className="input-group">
-        <label className="input-label" htmlFor="description">Detailed Description</label>
+        <label className="input-label" htmlFor="description">Αναλυτική Περιγραφή</label>
         <div style={{ background: "white", color: "black", borderRadius: "8px", overflow: "hidden" }}>
           <ReactQuill theme="snow" value={description} onChange={setDescription} />
         </div>
       </div>
       
       <div className="input-group">
-        <label className="input-label" htmlFor="file">Upload Screenshot (Choose file or Ctrl+V to paste)</label>
+        <label className="input-label" htmlFor="file">Ανέβασμα Αρχείου / Screenshot (Επιλέξτε ή πατήστε Ctrl+V για επικόλληση)</label>
         <input type="file" id="file" name="file" className="input-field" onChange={handleFileChange} accept="image/*,.pdf,.doc,.docx" style={{ padding: "0.5rem" }} />
-        {file && <span style={{ fontSize: "0.85rem", color: "var(--accent-primary)", marginTop: "0.5rem", display: "block" }}>Attached: {file.name}</span>}
+        {file && <span style={{ fontSize: "0.85rem", color: "var(--accent-primary)", marginTop: "0.5rem", display: "block" }}>Επισυνάφθηκε: {file.name}</span>}
       </div>
 
       <div className={styles.grid3}>
         <div className="input-group">
-          <label className="input-label" htmlFor="category">Category</label>
+          <label className="input-label" htmlFor="category">Κατηγορία</label>
           <select required id="category" name="category" className="input-field">
-            <option value="Basic Needs">Basic Needs</option>
-            <option value="Bug Fix">Bug Fix</option>
-            <option value="New Feature">New Feature</option>
-            <option value="Hardware Purchase">Hardware Purchase</option>
+            <option value="Basic Needs">Βασικές Ανάγκες (Basic Needs)</option>
+            <option value="Bug Fix">Διόρθωση Σφάλματος (Bug Fix)</option>
+            <option value="New Feature">Νέα Δυνατότητα (New Feature)</option>
+            <option value="Hardware Purchase">Αγορά Εξοπλισμού (Hardware Purchase)</option>
           </select>
         </div>
 
         <div className="input-group">
-          <label className="input-label" htmlFor="priority">Priority</label>
+          <label className="input-label" htmlFor="priority">Προτεραιότητα</label>
           <select required id="priority" name="priority" className="input-field">
-            <option value="Low">Low (When you have time)</option>
-            <option value="Medium">Medium (Normal)</option>
-            <option value="High">High (Important)</option>
-            <option value="Urgent">Urgent (Blocks my work)</option>
+            <option value="Low">Χαμηλή (Όταν υπάρχει χρόνος)</option>
+            <option value="Medium">Μεσαία (Κανονική)</option>
+            <option value="High">Υψηλή (Σημαντικό)</option>
+            <option value="Urgent">Επείγουσα (Άμεσα)</option>
           </select>
         </div>
 
         <div className="input-group">
-          <label className="input-label" htmlFor="requiredByDate">Required By (Optional)</label>
+          <label className="input-label" htmlFor="requiredByDate">Επιθυμητή Ημερομηνία (Προαιρετικό)</label>
           <input type="date" id="requiredByDate" name="requiredByDate" className="input-field" />
         </div>
       </div>
 
       <div className={styles.actions} style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
         <button type="submit" className="btn-primary" disabled={loading || fileUploading} style={{ minWidth: "200px" }}>
-          {loading || fileUploading ? <><span className="spinner"></span> Submitting...</> : "Submit Request"}
+          {loading || fileUploading ? <><span className="spinner"></span> Υποβολή...</> : "Υποβολή Αιτήματος"}
         </button>
       </div>
     </form>
