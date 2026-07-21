@@ -181,10 +181,18 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
         <div className="input-group">
           <label className="input-label" htmlFor="category">Κατηγορία</label>
           <select required id="category" name="category" className="input-field">
-            <option value="Basic Needs">Βασικές Ανάγκες (Basic Needs)</option>
-            <option value="Bug Fix">Διόρθωση Σφάλματος (Bug Fix)</option>
+            <option value="General">Γενικά (General)</option>
+            <option value="Bugs">Σφάλματα (Bugs)</option>
             <option value="New Feature">Νέα Δυνατότητα (New Feature)</option>
-            <option value="Hardware Purchase">Αγορά Εξοπλισμού (Hardware Purchase)</option>
+            <option value="Faulty Hardware">Προβληματικός Εξοπλισμός (Faulty Hardware)</option>
+            <option value="New Hardware">Νέος Εξοπλισμός (New Hardware)</option>
+            <option value="New Software">Νέο Λογισμικό (New Software)</option>
+            <option value="Zoho CRM">Zoho CRM</option>
+            <option value="Zoho Workdrive">Zoho Workdrive</option>
+            <option value="Zoho Flow">Zoho Flow</option>
+            <option value="Automations">Αυτοματισμοί (Automations)</option>
+            <option value="AI">Τεχνητή Νοημοσύνη (AI)</option>
+            <option value="Credentials">Κωδικοί / Πρόσβαση (Credentials)</option>
           </select>
         </div>
 

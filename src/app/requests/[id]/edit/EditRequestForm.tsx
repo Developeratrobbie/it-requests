@@ -90,7 +90,7 @@ export default function EditRequestForm({ requestData }: { requestData: PrismaRe
   return (
     <form onSubmit={handleSubmit}>
       <div className="input-group">
-        <label className="input-label">Short Title / Subject</label>
+        <label className="input-label">Σύντομος Τίτλος / Θέμα</label>
         <input
           type="text"
           required
@@ -101,7 +101,7 @@ export default function EditRequestForm({ requestData }: { requestData: PrismaRe
       </div>
 
       <div className="input-group">
-        <label className="input-label">Detailed Description</label>
+        <label className="input-label">Αναλυτική Περιγραφή</label>
         <div style={{ background: "white", color: "black", borderRadius: "8px", overflow: "hidden" }}>
           <ReactQuill 
             theme="snow" 
@@ -112,57 +112,62 @@ export default function EditRequestForm({ requestData }: { requestData: PrismaRe
       </div>
       
       <div className="input-group">
-        <label className="input-label">Attachment</label>
+        <label className="input-label">Ανέβασμα Αρχείου / Screenshot</label>
         {formData.attachmentUrl && !removeAttachment && (
           <div style={{ marginBottom: "0.5rem", padding: "0.5rem", backgroundColor: "rgba(0,0,0,0.2)", borderRadius: "4px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "0.85rem", color: "var(--accent-primary)" }}>Current Attachment Exists</span>
+            <span style={{ fontSize: "0.85rem", color: "var(--accent-primary)" }}>Υπάρχει Επισυναπτόμενο Αρχείο</span>
             <button type="button" className="btn-secondary" onClick={() => setRemoveAttachment(true)} style={{ padding: "0.2rem 0.5rem", fontSize: "0.8rem", color: "var(--danger)", borderColor: "rgba(239,68,68,0.3)" }}>
-              Remove
+              Διαγραφή
             </button>
           </div>
         )}
         {(removeAttachment || !formData.attachmentUrl) && (
           <>
             <input type="file" className="input-field" onChange={e => e.target.files && setFile(e.target.files[0])} accept="image/*,.pdf,.doc,.docx" style={{ padding: "0.5rem" }} />
-            {file && <span style={{ fontSize: "0.85rem", color: "var(--accent-primary)", marginTop: "0.5rem", display: "block" }}>Attached new: {file.name}</span>}
+            {file && <span style={{ fontSize: "0.85rem", color: "var(--accent-primary)", marginTop: "0.5rem", display: "block" }}>Νέο αρχείο: {file.name}</span>}
           </>
         )}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1.5rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1.5rem", alignItems: "end" }}>
         <div className="input-group">
-          <label className="input-label">Category</label>
+          <label className="input-label">Κατηγορία</label>
           <select 
             className="input-field"
             value={formData.category}
             onChange={e => setFormData({...formData, category: e.target.value})}
           >
-            <option>Basic Needs</option>
-            <option>Bug Fix</option>
-            <option>Hardware/Equipment</option>
-            <option>Software Request</option>
-            <option>New Feature</option>
-            <option>Hardware Purchase</option>
-            <option>Other</option>
+            <option value="General">Γενικά (General)</option>
+            <option value="Bugs">Σφάλματα (Bugs)</option>
+            <option value="New Feature">Νέα Δυνατότητα (New Feature)</option>
+            <option value="Faulty Hardware">Προβληματικός Εξοπλισμός (Faulty Hardware)</option>
+            <option value="New Hardware">Νέος Εξοπλισμός (New Hardware)</option>
+            <option value="New Software">Νέο Λογισμικό (New Software)</option>
+            <option value="Zoho CRM">Zoho CRM</option>
+            <option value="Zoho Workdrive">Zoho Workdrive</option>
+            <option value="Zoho Flow">Zoho Flow</option>
+            <option value="Automations">Αυτοματισμοί (Automations)</option>
+            <option value="AI">Τεχνητή Νοημοσύνη (AI)</option>
+            <option value="Credentials">Κωδικοί / Πρόσβαση (Credentials)</option>
           </select>
         </div>
 
         <div className="input-group">
-          <label className="input-label">Priority</label>
+          <label className="input-label">Προτεραιότητα</label>
           <select 
             className="input-field"
             value={formData.priority}
             onChange={e => setFormData({...formData, priority: e.target.value})}
           >
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-            <option>Urgent</option>
+            <option value="Low">Χαμηλή (Όταν υπάρχει χρόνος)</option>
+            <option value="Medium">Μεσαία (Κανονική)</option>
+            <option value="High">Υψηλή (Σημαντικό)</option>
+            <option value="Urgent">Επείγουσα (Άμεσα)</option>
           </select>
         </div>
 
         <div className="input-group">
-          <label className="input-label">Required By (Optional)</label>
+          <label className="input-label">Επιθυμητή Ημερομηνία (Προαιρετικό)</label>
           <input
             type="date"
             className="input-field"
@@ -174,7 +179,7 @@ export default function EditRequestForm({ requestData }: { requestData: PrismaRe
 
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1rem" }}>
         <button type="submit" disabled={loading || fileUploading} className="btn-primary">
-          {loading || fileUploading ? "Saving..." : "Save Changes"}
+          {loading || fileUploading ? "Αποθήκευση..." : "Αποθήκευση Αλλαγών"}
         </button>
       </div>
     </form>
