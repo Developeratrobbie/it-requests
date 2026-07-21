@@ -15,6 +15,7 @@ model User {
   password  String
   role      String    @default("USER") // USER or ADMIN
   requests  Request[]
+  lastSeenAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }

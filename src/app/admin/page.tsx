@@ -32,6 +32,12 @@ export default async function AdminDashboard() {
     include: { user: true },
   });
 
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+  const onlineUsers = await prisma.user.findMany({
+    where: { lastSeenAt: { gte: fiveMinutesAgo } },
+    select: { name: true },
+  });
+
   return (
     <main className="container" style={{ maxWidth: "100%", padding: "0 4rem" }}>
       <header className="page-header" style={{ marginBottom: "2rem", display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
@@ -92,6 +98,14 @@ export default async function AdminDashboard() {
           <div className={styles.statLabel}>Due Today</div>
         </div>
       </div>
+
+      {onlineUsers.length > 0 && (
+        <div className="glass-card" style={{ padding: "0.5rem 1rem", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.9rem" }}>
+          <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#22c55e", boxShadow: "0 0 8px #22c55e" }}></div>
+          <span style={{ color: "var(--text-secondary)" }}>Online Now:</span>
+          <span>{onlineUsers.map(u => u.name).join(", ")}</span>
+        </div>
+      )}
 
       <AdminKanbanClient requests={requests} />
     </main>
