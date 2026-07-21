@@ -26,17 +26,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const updateData: { status?: string; title?: string; description?: string; category?: string; priority?: string; requiredByDate?: Date | null; } = {};
-    if (isAdmin && data.status) {
-      updateData.status = data.status;
-    }
+    const updateData: any = {};
     
-    if (isOwner) {
-      if (data.title) updateData.title = data.title;
-      if (data.description) updateData.description = data.description;
-      if (data.category) updateData.category = data.category;
-      if (data.priority) updateData.priority = data.priority;
+    // If the user is an Admin, they can update everything including status and assignment
+    if (isOwner || isAdmin) {
+      if (data.status !== undefined) updateData.status = data.status;
+      if (data.title !== undefined) updateData.title = data.title;
+      if (data.description !== undefined) updateData.description = data.description;
+      if (data.category !== undefined) updateData.category = data.category;
+      if (data.priority !== undefined) updateData.priority = data.priority;
       if (data.requiredByDate !== undefined) updateData.requiredByDate = data.requiredByDate ? new Date(data.requiredByDate) : null;
+      if (data.attachmentUrl !== undefined) updateData.attachmentUrl = data.attachmentUrl;
+    }
+
+    if (isAdmin && data.userId !== undefined) {
+      updateData.userId = data.userId;
     }
 
     if (Object.keys(updateData).length === 0) {
@@ -70,11 +74,11 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    // Check permissions: either the user owns it, or it's the super admin
+    // Check permissions: either the user owns it, or it's the admin
     const isOwner = reqRecord.userId.toString() === session.user.id;
-    const isSuperAdmin = session.user.email === "developer@robbie.gr";
+    const isAdmin = session.user.role === "ADMIN";
 
-    if (!isOwner && !isSuperAdmin) {
+    if (!isOwner && !isAdmin) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

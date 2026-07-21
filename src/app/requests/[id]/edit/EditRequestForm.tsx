@@ -9,7 +9,15 @@ import { Request as PrismaRequest } from "@prisma/client";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
-export default function EditRequestForm({ requestData }: { requestData: PrismaRequest }) {
+export default function EditRequestForm({ 
+  requestData, 
+  isAdmin, 
+  users = [] 
+}: { 
+  requestData: PrismaRequest, 
+  isAdmin?: boolean, 
+  users?: { id: string, name: string | null, email: string | null }[] 
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,6 +27,7 @@ export default function EditRequestForm({ requestData }: { requestData: PrismaRe
     priority: requestData.priority,
     attachmentUrl: requestData.attachmentUrl,
     requiredByDate: requestData.requiredByDate ? new Date(requestData.requiredByDate).toISOString().split('T')[0] : "",
+    userId: requestData.userId,
   });
 
   const [file, setFile] = useState<File | null>(null);
@@ -99,6 +108,21 @@ export default function EditRequestForm({ requestData }: { requestData: PrismaRe
           onChange={e => setFormData({...formData, title: e.target.value})}
         />
       </div>
+
+      {isAdmin && (
+        <div className="input-group">
+          <label className="input-label">Εκ μέρους (User)</label>
+          <select 
+            className="input-field"
+            value={formData.userId}
+            onChange={e => setFormData({...formData, userId: e.target.value})}
+          >
+            {users.map(u => (
+              <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="input-group">
         <label className="input-label">Αναλυτική Περιγραφή</label>

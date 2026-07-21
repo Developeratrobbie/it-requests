@@ -29,8 +29,10 @@ export default async function EditRequestPage({ params }: { params: Promise<{ id
     );
   }
 
-  // Only owner can edit
-  if (reqRecord.userId.toString() !== session.user.id) {
+  const isAdmin = session.user.role === "ADMIN";
+
+  // Only owner or admin can edit
+  if (reqRecord.userId.toString() !== session.user.id && !isAdmin) {
     return (
       <main className="container">
         <div className="glass-card" style={{ textAlign: "center" }}>
@@ -40,6 +42,13 @@ export default async function EditRequestPage({ params }: { params: Promise<{ id
         </div>
       </main>
     );
+  }
+
+  let users: { id: string, name: string | null, email: string | null }[] = [];
+  if (isAdmin) {
+    users = await prisma.user.findMany({
+      select: { id: true, name: true, email: true },
+    });
   }
 
   return (
@@ -58,7 +67,7 @@ export default async function EditRequestPage({ params }: { params: Promise<{ id
       </header>
 
       <div className="glass-card">
-        <EditRequestForm requestData={reqRecord} />
+        <EditRequestForm requestData={reqRecord} isAdmin={isAdmin} users={users} />
       </div>
     </main>
   );
