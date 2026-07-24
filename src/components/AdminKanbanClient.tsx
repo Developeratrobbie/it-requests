@@ -69,11 +69,24 @@ function SortableItem(props: { id: string; request: RequestWithUser }) {
         <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>#{req.id}</span>
         <span className={`badge ${req.priority.toLowerCase()}`}>{req.priority}</span>
       </div>
-      <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>{req.title}</h3>
-      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+      <h3 style={{ fontSize: '1rem', marginBottom: '0.2rem' }}>{req.title}</h3>
+      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>
         {req.user.name}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>
+        Category: {req.category}
+      </div>
+      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+        Status: <span style={{ padding: "0.1rem 0.4rem", borderRadius: "4px", backgroundColor: "var(--bg-primary)", border: "1px solid var(--glass-border)" }}>{req.status}</span>
+      </div>
+      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+        {req.status === 'Resolved' || req.status === 'Closed' ? (
+          <>Completed: {req.completedAt ? new Date(req.completedAt).toLocaleDateString() : 'N/A'}</>
+        ) : (
+          <>Created: {new Date(req.createdAt).toLocaleDateString()}</>
+        )}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <TimerButton id={req.id} isRunning={!!req.timerStartedAt} timeSpent={req.timeSpent} timerStartedAt={req.timerStartedAt} />
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <a href={`/requests/${req.id}`} onPointerDown={(e) => e.stopPropagation()} className="btn-secondary" style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', background: 'var(--glass-bg)', color: 'var(--text-primary)', border: '1px solid var(--glass-border)', borderRadius: '20px' }}>View</a>
