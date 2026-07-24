@@ -97,7 +97,10 @@ export default function MyRequests({ refreshKey }: { refreshKey: number }) {
         <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>#{req.id}</span>
         <span className={getPriorityBadgeClass(req.priority)}>{req.priority}</span>
       </div>
-      <h3 style={{ fontSize: '1rem', marginBottom: '0.5rem' }}>{req.title}</h3>
+      <h3 style={{ fontSize: '1rem', marginBottom: '0.2rem' }}>{req.title}</h3>
+      <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+        Category: {req.category}
+      </div>
       <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
         Status: <span style={{ padding: "0.1rem 0.4rem", borderRadius: "4px", backgroundColor: "var(--bg-primary)", border: "1px solid var(--glass-border)" }}>{req.status}</span>
       </div>
@@ -114,6 +117,9 @@ export default function MyRequests({ refreshKey }: { refreshKey: number }) {
           <Link href={`/requests/${req.id}`} className="btn-secondary" style={{ padding: "0.25rem 0.5rem", fontSize: "0.85rem" }}>
             View
           </Link>
+          <Link href={`/requests/${req.id}/edit`} className="btn-secondary" style={{ padding: "0.25rem 0.5rem", fontSize: "0.85rem" }}>
+            Edit
+          </Link>
           <DeleteButton id={req.id} />
         </div>
       </div>
@@ -122,12 +128,12 @@ export default function MyRequests({ refreshKey }: { refreshKey: number }) {
 
   return (
     <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginTop: '2rem' }}>
-      <div style={{ flex: '1 1 400px' }}>
-        <h3 style={{ marginBottom: "1rem", color: "var(--text-primary)" }}>Open Requests</h3>
+      <div style={{ flex: '1 1 400px', maxHeight: 'calc(100vh - 250px)', overflowY: 'auto', paddingRight: '1rem' }}>
+        <h3 style={{ marginBottom: "1rem", color: "var(--text-primary)", position: "sticky", top: 0, backgroundColor: "var(--bg-primary)", paddingBottom: "0.5rem", zIndex: 10 }}>Open Requests</h3>
         {openRequests.length > 0 ? openRequests.map(renderCard) : <p style={{ color: 'var(--text-secondary)' }}>No open requests.</p>}
       </div>
-      <div style={{ flex: '1 1 400px' }}>
-        <h3 style={{ marginBottom: "1rem", color: "var(--text-primary)" }}>Resolved Requests</h3>
+      <div style={{ flex: '1 1 400px', maxHeight: 'calc(100vh - 250px)', overflowY: 'auto', paddingRight: '1rem' }}>
+        <h3 style={{ marginBottom: "1rem", color: "var(--text-primary)", position: "sticky", top: 0, backgroundColor: "var(--bg-primary)", paddingBottom: "0.5rem", zIndex: 10 }}>Resolved Requests</h3>
         {resolvedRequests.length > 0 ? resolvedRequests.map(renderCard) : <p style={{ color: 'var(--text-secondary)' }}>No resolved requests yet.</p>}
       </div>
     </div>
