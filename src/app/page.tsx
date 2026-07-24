@@ -13,9 +13,7 @@ export default async function MyRequestsPage() {
     redirect("/login");
   }
   
-  if (session.user?.role === "ADMIN") {
-    redirect("/admin");
-  }
+  // Allow Admins to view the dashboard too
 
   return (
     <main className="container">

@@ -198,7 +198,7 @@ export default function RequestForm({ onCreated }: { onCreated?: () => void }) {
 
         <div className="input-group">
           <label className="input-label" htmlFor="priority">Προτεραιότητα</label>
-          <select required id="priority" name="priority" className="input-field">
+          <select required id="priority" name="priority" className="input-field" defaultValue="Medium">
             <option value="Low">Χαμηλή (Όταν υπάρχει χρόνος)</option>
             <option value="Medium">Μεσαία (Κανονική)</option>
             <option value="High">Υψηλή (Σημαντικό)</option>

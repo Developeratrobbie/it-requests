@@ -124,6 +124,28 @@ function KanbanColumn({ column, items }: { column: { id: string, title: string }
   );
 }
 
+const priorityWeight = {
+  Urgent: 4,
+  High: 3,
+  Medium: 2,
+  Normal: 2,
+  Low: 1
+};
+
+export function sortRequests(a: RequestWithUser, b: RequestWithUser) {
+  const dateA = a.requiredByDate ? new Date(a.requiredByDate).getTime() : Infinity;
+  const dateB = b.requiredByDate ? new Date(b.requiredByDate).getTime() : Infinity;
+  
+  if (dateA !== dateB) {
+    return dateA - dateB;
+  }
+  
+  const pA = priorityWeight[a.priority as keyof typeof priorityWeight] || 0;
+  const pB = priorityWeight[b.priority as keyof typeof priorityWeight] || 0;
+  
+  return pB - pA;
+}
+
 export default function AdminKanbanClient({ requests }: { requests: RequestWithUser[] }) {
   const [items, setItems] = useState(requests);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -187,13 +209,6 @@ export default function AdminKanbanClient({ requests }: { requests: RequestWithU
           newItems[activeIndex].status = 'Open';
         } else {
           newItems[activeIndex].status = overId;
-          if (newItems[activeIndex].priority === 'Urgent' && overId === 'Open') {
-            // Dragged from Urgent back to To Do, unset urgent priority? Or keep it?
-            // Let's keep priority, just it drops back to Open, meaning it goes to To Do.
-            // Wait, if priority is Urgent and status Open, it falls in Urgent column.
-            // If they drop in Open, we should unset Urgent priority so it stays in Open.
-            newItems[activeIndex].priority = 'High';
-          }
         }
         return arrayMove(newItems, activeIndex, activeIndex);
       });
@@ -243,7 +258,7 @@ export default function AdminKanbanClient({ requests }: { requests: RequestWithU
               if (col.id === 'Open') return i.status === 'Open' && i.priority !== 'Urgent';
               if (col.id === 'Resolved') return i.status === 'Resolved' || i.status === 'Closed';
               return i.status === col.id;
-            })}
+            }).sort(sortRequests)}
           />
         ))}
       </div>

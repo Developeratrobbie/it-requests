@@ -35,6 +35,7 @@ model Request {
   status         String    @default("Open")
   timeSpent      Int       @default(0) // seconds spent
   timerStartedAt DateTime? // when the timer was started
+  completedAt    DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }

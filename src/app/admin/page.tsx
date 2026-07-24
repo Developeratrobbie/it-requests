@@ -71,32 +71,6 @@ export default async function AdminDashboard() {
           <div className={styles.statNumber}>{requests.filter(r => r.status === 'Open').length}</div>
           <div className={styles.statLabel}>Open</div>
         </div>
-        <div className={`glass-card ${styles.statCard}`}>
-          <div className={styles.statNumber}>{requests.filter(r => r.priority === 'Urgent').length}</div>
-          <div className={styles.statLabel}>Urgent</div>
-        </div>
-        <div className={`glass-card ${styles.statCard}`}>
-          <div className={styles.statNumber}>{requests.filter(r => r.status === 'Resolved').length}</div>
-          <div className={styles.statLabel}>Completed</div>
-        </div>
-        <div className={`glass-card ${styles.statCard}`}>
-          <div className={styles.statNumber}>{requests.filter(r => r.status === 'Closed').length}</div>
-          <div className={styles.statLabel}>Closed</div>
-        </div>
-        <div className={`glass-card ${styles.statCard}`}>
-          <div className={styles.statNumber}>
-            {requests.filter(r => {
-              if (!r.requiredByDate) return false;
-              const today = new Date();
-              const reqDate = new Date(r.requiredByDate);
-              return reqDate.getDate() === today.getDate() &&
-                     reqDate.getMonth() === today.getMonth() &&
-                     reqDate.getFullYear() === today.getFullYear() &&
-                     r.status !== 'Resolved' && r.status !== 'Closed';
-            }).length}
-          </div>
-          <div className={styles.statLabel}>Due Today</div>
-        </div>
       </div>
 
       {onlineUsers.length > 0 && (

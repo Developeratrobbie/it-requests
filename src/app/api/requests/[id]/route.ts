@@ -30,7 +30,14 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     
     // If the user is an Admin, they can update everything including status and assignment
     if (isOwner || isAdmin) {
-      if (data.status !== undefined) updateData.status = data.status;
+      if (data.status !== undefined) {
+        updateData.status = data.status;
+        if (data.status === 'Resolved' || data.status === 'Closed') {
+          updateData.completedAt = new Date();
+        } else if (data.status === 'Open' || data.status === 'In Progress') {
+          updateData.completedAt = null;
+        }
+      }
       if (data.title !== undefined) updateData.title = data.title;
       if (data.description !== undefined) updateData.description = data.description;
       if (data.category !== undefined) updateData.category = data.category;
